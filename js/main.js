@@ -2,13 +2,19 @@ let sideBarPosition = $(".nav-tabs").innerWidth()
 let allData = [];
 
 $(document).ready(function () {
+    async function getData() {
+        let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=`)
+        let { meals: allData } = await res.json();
+        display(allData);
+        $(".loadingDisplay").fadeOut(1000)
+    }
+    getData();
     $(".loading .sk-chase").fadeOut(1000, function () {
         $(".loading").fadeOut(1000)
         $("body").css("overflow", "auto")
     })
     closeSideNav()
 })
-
 
 // START NAVSIDE SECTION
 function closeSideNav() {
@@ -36,13 +42,7 @@ $(".openNav").click(function () {
 // END NAVSID SECTION
 
 // START MEALS HOME DATA
-async function getData() {
-    let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=`)
-    let { meals: allData } = await res.json();
-    display(allData);
-    $(".loadingDisplay").fadeOut(1000)
-}
-getData();
+
 
 function display(data) {
     let cartona = ``;
@@ -151,7 +151,7 @@ async function searchByName(term) {
     display(allData);
     $(".loadingDisplay").fadeOut(1000)
 }
-getData();
+
 
 async function searchByFirstLetter(term) {
     let res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${term}`)
@@ -160,7 +160,7 @@ async function searchByFirstLetter(term) {
     display(allData);
     $(".loadingDisplay").fadeOut(1000)
 }
-getData();
+
 // END SEARCH SECTION
 
 // START CATEGORY SECTION
